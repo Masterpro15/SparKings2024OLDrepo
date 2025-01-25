@@ -12,7 +12,7 @@ public class leftAutoTestMihir {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(80, 80, Math.toRadians(180), Math.toRadians(180), 15)
+                .setConstraints(120, 120, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-25, -61, Math.toRadians(90)))
