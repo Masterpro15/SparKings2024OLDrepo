@@ -16,6 +16,11 @@ public class leftAutoTestMihir {
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-25, -61, Math.toRadians(90)))
+
+                .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225)) // Move to (-54.5, -54.5) at 225°
+                .waitSeconds(1.5)
+                .splineToLinearHeading(new Pose2d(-48, -61, Math.toRadians(90)), Math.toRadians(90)) // Move to (-54.5, -54.5) at 225°
+
                 .strafeTo(new Vector2d(-48, -61)) // Move to (-48, -61)
                 .strafeTo(new Vector2d(-48, -48)) // Move to (-48, -48)
                 .waitSeconds(1.5) // Wait for 1.5 seconds

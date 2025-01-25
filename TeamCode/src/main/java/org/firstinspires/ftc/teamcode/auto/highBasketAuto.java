@@ -45,19 +45,26 @@ public class highBasketAuto extends LinearOpMode {
 
         // Build trajectory actions
         TrajectoryActionBuilder builder = drive.actionBuilder(startPose)
-                .strafeTo(new Vector2d(-48, -61)) // Move to (-48, -61)
-                .afterTime(0, wrist.wristDown())  // Move wrist down
+                .afterTime(0, arm.armBasket())// Arm up to score basket
+                .afterTime(0, wrist.wristScore())//wrist up so it doesn't hit anything
+                .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225))//go to position to score (-54.5,-54.5)
+                .afterTime(0, wrist.wristMid())// claw can go in the basket
+                .afterTime(0, claw.clawOpen())//claw opens and we get first high basket:)
+                .strafeTo(new Vector2d(-48, -61))// Move to (-48, -61) to grab
+                .afterTime(0, arm.armCollapse())   //collapse from the high basket score
+                .afterTime(0, wrist.wristDown())  // Move wrist down to get ready to collect
                 .afterTime(0, claw.clawOpen())    // Open the claw
-                .afterTime(0, arm.armGrab())     // Move arm to grab position
-                .afterTime(0, lift.liftTiny())   // Lift up slightly
+                .afterTime(0, arm.armGrab())     // Move arm to grab position so we can get close
+                .afterTime(0, lift.liftTiny())   // Lift up slightly to pick sample up
                 .afterTime(0, claw.clawClose())  // Close the claw
-                .waitSeconds(0.5)                // Wait for actions to complete
-                .afterTime(0, arm.armBasket())   // Move arm to basket position
-                .strafeTo(new Vector2d(-48, -48)) // Move to new location
+                .waitSeconds(1.5)                // Wait for it to complete in case some thing happens stop here
+
+                .strafeTo(new Vector2d(-48, -48)) // Move to basket position location
+                .afterTime(0, arm.armBasket())// Move arm to basket position to score
                 .afterTime(0, wrist.wristScore()) // Move wrist to scoring position
-                .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225))
+                .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225))//go to the basket
                 .afterTime(0, wrist.wristMid())   // Move wrist to mid position
-                .afterTime(0, claw.clawOpen())    // Open the claw
+                .afterTime(0, claw.clawOpen())    // Open the claw Yay second one in :)
                 .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(90)), Math.toRadians(90))
                 .afterTime(0, arm.armCollapse())  // Collapse the arm
                 .afterTime(0, wrist.wristDown())  // Move wrist down
@@ -65,7 +72,7 @@ public class highBasketAuto extends LinearOpMode {
                 .afterTime(0, arm.armGrab())      // Move arm to grab position
                 .afterTime(0, lift.liftTiny())    // Lift up slightly
                 .afterTime(0, claw.clawClose())   // Close the claw again
-                .waitSeconds(0.5)                 // Wait for actions to complete
+                .waitSeconds(1.5)                 // Wait for actions to complete
                 .afterTime(0, arm.armBasket())    // Move arm to basket position
                 .afterTime(0, wrist.wristScore()) // Move wrist to scoring position
                 .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225))
@@ -88,7 +95,7 @@ public class highBasketAuto extends LinearOpMode {
             // Run the built trajectory
             Actions.runBlocking(new SequentialAction(builder.build()));
 
-            // Additional telemetry to show task completion
+            // Additional telemetry to show that we got high basket Yay!
             telemetry.addData("Status", "Road Runner for High Basket Complete");
             telemetry.update();
         }
