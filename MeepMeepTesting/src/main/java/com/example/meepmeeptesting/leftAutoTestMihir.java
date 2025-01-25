@@ -19,16 +19,20 @@ public class leftAutoTestMihir {
 
                 .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225)) // Move to (-54.5, -54.5) at 225°
                 .waitSeconds(1.5)
+                .strafeTo(new Vector2d(-50, -50))
                 .splineToLinearHeading(new Pose2d(-48, -61, Math.toRadians(90)), Math.toRadians(90)) // Move to (-54.5, -54.5) at 225°
 
                 .strafeTo(new Vector2d(-48, -61)) // Move to (-48, -61)
                 .strafeTo(new Vector2d(-48, -48)) // Move to (-48, -48)
                 .waitSeconds(1.5) // Wait for 1.5 seconds
                 .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225)) // Move to (-54.5, -54.5) at 225°
-                .waitSeconds(1.5) // Wait for 1.5 seconds
+                .waitSeconds(1.5)  // Wait for 1.5 seconds
+                .strafeTo(new Vector2d(-50, -50))
+
                 .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(90)), Math.toRadians(90)) // Move to (-50, -50)
                 .waitSeconds(1.5) // Wait for 1.5 seconds
                 .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225))
+                .strafeTo(new Vector2d(-50, -50))
                 .waitSeconds(1.5)
                 .splineToLinearHeading(new Pose2d(-52, 0, Math.toRadians(-180)), Math.toRadians(-180))
                 .setReversed(true)
