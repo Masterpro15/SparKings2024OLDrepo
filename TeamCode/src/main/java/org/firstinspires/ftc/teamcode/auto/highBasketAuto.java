@@ -45,6 +45,7 @@ public class highBasketAuto extends LinearOpMode {
 
         // Build trajectory actions
         TrajectoryActionBuilder builder = drive.actionBuilder(startPose)
+                .afterTime(0, claw.clawClose())
                 .afterTime(0, arm.armBasket())// Arm up to score basket
                 .afterTime(0, lift.liftUp())
                 .afterTime(0, wrist.wristScore())//wrist up so it doesn't hit anything
@@ -53,7 +54,8 @@ public class highBasketAuto extends LinearOpMode {
                 .afterTime(0, claw.clawOpen())//claw opens and we get first high basket:)
                 .afterTime(0, wrist.wristScore())//so we can back out safely
                 .strafeTo(new Vector2d(-50, -50))
-                .strafeTo(new Vector2d(-48, -61))// Move to (-48, -61) to grab
+                .strafeTo(new Vector2d(-48, -61))
+                .afterTime(0, lift.liftDown())
                 .afterTime(0, arm.armCollapse())   //collapse from the high basket score
                 .afterTime(0, wrist.wristDown())  // Move wrist down to get ready to collect
                 .afterTime(0, claw.clawOpen())    // Open the claw
@@ -63,9 +65,10 @@ public class highBasketAuto extends LinearOpMode {
                 .waitSeconds(1.5)                // Wait for it to complete in case some thing happens stop here
                 .afterTime(0, arm.armBasket())//arm position to high basket
                 .afterTime(0, lift.liftUp())//extend to high basket
+                .afterTime(0, wrist.wristScore())
                 .strafeTo(new Vector2d(-48, -48)) // Move to basket position location
                 .strafeTo(new Vector2d(-50, -50))
-                .afterTime(0, wrist.wristScore()) // Move wrist to scoring position
+
                 .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225))//go to the basket
                 .afterTime(0, wrist.wristMid())   // Move wrist to mid position
                 .afterTime(0, claw.clawOpen())    // Open the claw Yay second one in :)
@@ -84,9 +87,10 @@ public class highBasketAuto extends LinearOpMode {
                 .afterTime(0, wrist.wristMid())   // Move wrist to mid position
                 .afterTime(0, claw.clawOpen())    // Open claw
                 .strafeTo(new Vector2d(-50, -50))
-                .splineToLinearHeading(new Pose2d(-52, 0, Math.toRadians(-180)), Math.toRadians(-180))
+                .splineToLinearHeading(new Pose2d(-43, 0, Math.toRadians(-180)), Math.toRadians(-180))
+                .afterTime(0, lift.liftDown())
                 .afterTime(0, arm.armCollapse())  // Collapse the arm
-                .setReversed(true)                // Reverse movement direction
+                .setReversed(false)                // Reverse movement direction
                 .strafeTo(new Vector2d(-25, 0)); // Strafe to final position
 
         // Wait for the start signal

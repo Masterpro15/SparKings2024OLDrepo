@@ -12,7 +12,7 @@ public class leftAutoTestMihir {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(120, 120, Math.toRadians(180), Math.toRadians(180), 15)
+                .setConstraints(80, 80, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-25, -61, Math.toRadians(90)))
@@ -34,8 +34,8 @@ public class leftAutoTestMihir {
                 .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225))
                 .strafeTo(new Vector2d(-50, -50))
                 .waitSeconds(1.5)
-                .splineToLinearHeading(new Pose2d(-52, 0, Math.toRadians(-180)), Math.toRadians(-180))
-                .setReversed(true)
+                .splineToLinearHeading(new Pose2d(-45, 0, Math.toRadians(0)), Math.toRadians(0))
+
                 .strafeTo(new Vector2d(-25, 0))
 
                 .build());
