@@ -1,11 +1,6 @@
 package org.firstinspires.ftc.teamcode.auto;
 
-
-import androidx.annotation.NonNull;
-
-// RR-specific imports
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -17,104 +12,102 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 // Non-RR imports
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.hardware.Arm;
+import org.firstinspires.ftc.teamcode.hardware.Claw;
 import org.firstinspires.ftc.teamcode.hardware.Wrist;
-@Config
-@Autonomous(name = "RightAutoSpecimen", group = "Autonomous")
+import org.firstinspires.ftc.teamcode.hardware.Lift;
+
+@Autonomous(name = "HighBasketAuto", group = "Autonomous")
 public class SpecimenAuto extends LinearOpMode {
-    Pose2d startPose;
-    MecanumDrive drive;
-    Arm arm = new Arm(this);
-    Wrist wrist = new Wrist(this);
+    private Pose2d startPose = null;
+    private MecanumDrive drive = null;
+    private Arm arm = null;
+    private Wrist wrist = null;
+    private Lift lift = null;
+    private Claw claw = null;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        startPose = new Pose2d(0, -61, Math.toRadians(90));
-        drive = new MecanumDrive(hardwareMap, startPose);
-        TrajectoryActionBuilder build = drive.actionBuilder(startPose)
-                /*.afterTime(0.2, arm.armUp())
-                .afterTime(0.2, wrist.wristScore())
-                .strafeTo(new Vector2d(0, -30))
+        // Initialize hardware
+        startPose = new Pose2d(0, -61, Math.toRadians(90)); // Starting pose
+        drive = new MecanumDrive(hardwareMap, startPose);   // Initialize Mecanum Drive
+        arm = new Arm(this);                                // Initialize Arm
+        wrist = new Wrist(this);                            // Initialize Wrist
+        lift = new Lift(this);                              // Initialize Lift
+        claw = new Claw(this);                              // Initialize Claw
 
-                .waitSeconds(1)
-                .afterTime(0.1, arm.armDown())
-                */
-                .afterTime(0, arm.armUp())
-                .strafeTo(new Vector2d(0, -30))
-                .waitSeconds(1)
-
-                .setReversed(true)
-                .afterTime(0, arm.armDown())
-                .splineToSplineHeading(new Pose2d(new Vector2d(26,-43), Math.toRadians(-90)), 0)
-
-
-                .splineTo(new Vector2d(45, -13), 0)
-
-                .strafeTo(new Vector2d(45,-53))
-                //one in observation zone
-                .strafeTo(new Vector2d(45,-13))
-
-                .strafeTo(new Vector2d(55,-13))
-                .strafeTo(new Vector2d(55,-59))
-                .waitSeconds(0.5)
-                .afterTime(0, arm.armUp())
-
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(0,-35), Math.toRadians(-270)), Math.toRadians(90))
-                .setReversed(true)
-                .afterTime(0, arm.armDown())
-                .splineToSplineHeading(new Pose2d(new Vector2d(38, -59.5), Math.toRadians(270)), Math.toRadians(270))
-
-                .waitSeconds(0.5)
-                .afterTime(0, arm.armUp())
-                .setReversed(true)
-
-                .splineToSplineHeading(new Pose2d(new Vector2d(0,-35), Math.toRadians(-270)), Math.toRadians(90))
-                .setReversed(true)
-                .afterTime(0, arm.armDown())
-                .splineToSplineHeading(new Pose2d(new Vector2d(38, -59.5), Math.toRadians(270)), Math.toRadians(270))
-                .waitSeconds(0.5)
-                .afterTime(0, arm.armUp())
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(0,-35), Math.toRadians(-270)), Math.toRadians(90))
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(55,-57), Math.toRadians(270)), Math.toRadians(270))
-
-
-
-
-
-
-
-
-
-
-
-                ;
+        // Initialize subsystems
         arm.init();
         wrist.init();
-        int position= 1;
-        while (!isStopRequested() && !opModeIsActive()) {
-            Actions.runBlocking(new SequentialAction(
+        lift.init();
+        claw.init();
 
-            ));
+        // Build trajectory actions
+        TrajectoryActionBuilder builder = drive.actionBuilder(startPose)
+                .afterTime(0, claw.clawClose())
+                .afterTime(0, arm.armBasket())// Arm up to score basket
+                .afterTime(0, lift.liftUp())
+                .afterTime(0, wrist.wristScore())//wrist up so it doesn't hit anything
+                .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225))//go to position to score (-54.5,-54.5)
+                .afterTime(0, wrist.wristMid())// claw can go in the basket
+                .afterTime(0, claw.clawOpen())//claw opens and we get first high basket:)
+                .afterTime(0, wrist.wristScore())//so we can back out safely
+                .strafeTo(new Vector2d(-50, -50))
+                .strafeTo(new Vector2d(-48, -61))
+                .afterTime(0, lift.liftDown())
+                .afterTime(0, arm.armCollapse())   //collapse from the high basket score
+                .afterTime(0, wrist.wristDown())  // Move wrist down to get ready to collect
+                .afterTime(0, claw.clawOpen())    // Open the claw
+                .afterTime(0, arm.armGrab())     // Move arm to grab position so we can get close
+                .afterTime(0, lift.liftTiny())   // Lift up slightly to pick sample up
+                .afterTime(0, claw.clawClose())  // Close the claw
+                .waitSeconds(1.5)                // Wait for it to complete in case some thing happens stop here
+                .afterTime(0, arm.armBasket())//arm position to high basket
+                .afterTime(0, lift.liftUp())//extend to high basket
+                .afterTime(0, wrist.wristScore())
+                .strafeTo(new Vector2d(-48, -48)) // Move to basket position location
+                .strafeTo(new Vector2d(-50, -50))
 
+                .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225))//go to the basket
+                .afterTime(0, wrist.wristMid())   // Move wrist to mid position
+                .afterTime(0, claw.clawOpen())    // Open the claw Yay second one in :)
+                .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(90)), Math.toRadians(90))
+                .afterTime(0, arm.armCollapse())  // Collapse the arm
+                .afterTime(0, wrist.wristDown())  // Move wrist down
+                .afterTime(0, claw.clawOpen())    // Open claw again
+                .afterTime(0, arm.armGrab())      // Move arm to grab position
+                .afterTime(0, lift.liftTiny())    // Lift up slightly
+                .afterTime(0, claw.clawClose())   // Close the claw again
+                .waitSeconds(1.5)                 // Wait for actions to complete
+                .afterTime(0, arm.armBasket())// Move arm to basket position
+                .afterTime(0, lift.liftHighBasket())//move viper slide to extend
+                .afterTime(0, wrist.wristScore()) // Move wrist to scoring position
+                .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225))//go to extend
+                .afterTime(0, wrist.wristMid())   // Move wrist to mid position
+                .afterTime(0, claw.clawOpen())    // Open claw
+                .strafeTo(new Vector2d(-50, -50))
+                .splineToLinearHeading(new Pose2d(-43, 0, Math.toRadians(-180)), Math.toRadians(-180))
+                .afterTime(0, lift.liftDown())
+                .afterTime(0, arm.armCollapse())  // Collapse the arm
+                .setReversed(false)                // Reverse movement direction
+                .strafeTo(new Vector2d(-25, 0)); // Strafe to final position
 
+        // Wait for the start signal
+        while (!isStarted() && !isStopRequested()) {
+            telemetry.addData("Status", "Waiting for start...");
+            telemetry.update();
         }
 
         waitForStart();
-        Actions.runBlocking(new SequentialAction(
-                build.build()
-        ));
 
+        if (opModeIsActive()) {
+            // Run the built trajectory
+            Actions.runBlocking(new SequentialAction(builder.build()));
 
-
-
-
+            // Additional telemetry to show that we got high basket Yay!
+            telemetry.addData("Status", "Road Runner for High Basket Complete");
+            telemetry.update();
+        }
     }
 }
-
