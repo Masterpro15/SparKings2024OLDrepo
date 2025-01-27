@@ -53,6 +53,7 @@ public class SpecimenAuto extends LinearOpMode {
                 .afterTime(0, wrist.wristMid())// claw can go in the basket
                 .afterTime(0, claw.clawOpen())//claw opens and we get first high basket:)
                 .afterTime(0, wrist.wristScore())//so we can back out safely
+                /*
                 .strafeTo(new Vector2d(-50, -50))
                 .strafeTo(new Vector2d(-48, -61))
                 .afterTime(0, lift.liftDown())
@@ -92,6 +93,9 @@ public class SpecimenAuto extends LinearOpMode {
                 .afterTime(0, arm.armCollapse())  // Collapse the arm
                 .setReversed(false)                // Reverse movement direction
                 .strafeTo(new Vector2d(-25, 0)); // Strafe to final position
+
+                 */
+                ;
 
         // Wait for the start signal
         while (!isStarted() && !isStopRequested()) {
