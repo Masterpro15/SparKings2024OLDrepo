@@ -15,7 +15,7 @@ public class Claw {
     }
     public void init() {
         // Define and Initialize Motors (note: need to use reference to actual OpMode).
-        wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
+        wrist = myOpMode.hardwareMap.get(Servo.class, "claw");
 
     }
     public class ClawClose implements Action {
