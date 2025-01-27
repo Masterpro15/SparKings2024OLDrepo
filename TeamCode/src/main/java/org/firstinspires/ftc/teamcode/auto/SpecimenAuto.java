@@ -30,7 +30,7 @@ public class SpecimenAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         // Initialize hardware
-        startPose = new Pose2d(0, -61, Math.toRadians(90)); // Starting pose
+        startPose = new Pose2d(-36, -61, Math.toRadians(90)); // Starting pose
         drive = new MecanumDrive(hardwareMap, startPose);   // Initialize Mecanum Drive
         arm = new Arm(this);                                // Initialize Arm
         wrist = new Wrist(this);                            // Initialize Wrist
