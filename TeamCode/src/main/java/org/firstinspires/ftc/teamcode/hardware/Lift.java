@@ -14,7 +14,7 @@ public class Lift {
     private static final double LIFT_COLLECT = 100 * LIFT_TICKS_PER_MM;
     private static final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
     private static final double LIFT_SCORING_IN_HIGH_BASKET = 600 * LIFT_TICKS_PER_MM;
-    private static final double TINY = 600 * LIFT_TICKS_PER_MM;
+    private static final double TINY = 2100 * LIFT_TICKS_PER_MM;
 
     private DcMotorEx liftMotor;
     private final OpMode myOpMode;
@@ -28,17 +28,31 @@ public class Lift {
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // Debugging telemetry for initialization
+        myOpMode.telemetry.addData("Lift Encoder Initialized", liftMotor.getCurrentPosition());
+        myOpMode.telemetry.update();
     }
 
     private void moveToPosition(double targetPosition) {
         liftMotor.setTargetPosition((int) targetPosition);
-        liftMotor.setPower(0.6); // Adjust speed as necessary
+        liftMotor.setPower(0.8); // Adjusted power for autonomous
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // Debugging telemetry for movement
+        myOpMode.telemetry.addData("Moving to Position", targetPosition);
+        myOpMode.telemetry.addData("Current Position", liftMotor.getCurrentPosition());
+        myOpMode.telemetry.update();
     }
 
     private boolean isAtTarget(double targetPosition) {
         int currentPosition = liftMotor.getCurrentPosition();
-        return Math.abs(currentPosition - targetPosition) <= 10;
+        boolean atTarget = Math.abs(currentPosition - targetPosition) <= 50; // Increased tolerance for testing
+        myOpMode.telemetry.addData("Target Position", targetPosition);
+        myOpMode.telemetry.addData("Current Position", currentPosition);
+        myOpMode.telemetry.addData("At Target", atTarget);
+        myOpMode.telemetry.update();
+        return atTarget;
     }
 
     public class LiftTiny implements Action {
@@ -92,5 +106,26 @@ public class Lift {
 
     public Action liftUp() {
         return new LiftUp();
+    }
+
+    // Test method to run lift without encoders for debugging
+    public void testWithoutEncoders() {
+        liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftMotor.setPower(0.8);
+        try {
+            Thread.sleep(2000); // Run for 2 seconds
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        liftMotor.setPower(0);
+    }
+
+    // Add a wait method to pause the autonomous sequence for lift movement
+    public void waitForLiftMovement() {
+        while (liftMotor.isBusy()) {
+            myOpMode.telemetry.addData("Lift Moving", liftMotor.getCurrentPosition());
+            myOpMode.telemetry.update();
+        }
+        liftMotor.setPower(0); // Stop the motor after reaching the position
     }
 }
