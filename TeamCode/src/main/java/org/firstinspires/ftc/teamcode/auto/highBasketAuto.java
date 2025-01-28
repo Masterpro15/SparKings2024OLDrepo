@@ -30,7 +30,7 @@ public class highBasketAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         // Initialize hardware
-        startPose = new Pose2d(0, -61, Math.toRadians(90)); // Starting pose
+        startPose = new Pose2d(-25, -61, Math.toRadians(90)); // Starting pose
         drive = new MecanumDrive(hardwareMap, startPose);   // Initialize Mecanum Drive
         arm = new Arm(this);                                // Initialize Arm
         wrist = new Wrist(this);                            // Initialize Wrist
@@ -45,53 +45,71 @@ public class highBasketAuto extends LinearOpMode {
 
         // Build trajectory actions
         TrajectoryActionBuilder builder = drive.actionBuilder(startPose)
-                .afterTime(0, claw.clawClose())
-                .afterTime(0, arm.armBasket())// Arm up to score basket
-                .afterTime(0, lift.liftUp())
-                .afterTime(0, wrist.wristScore())//wrist up so it doesn't hit anything
-                .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225))//go to position to score (-54.5,-54.5)
-                .afterTime(0, wrist.wristMid())// claw can go in the basket
-                .afterTime(0, claw.clawOpen())//claw opens and we get first high basket:)
-                .afterTime(0, wrist.wristScore())//so we can back out safely
-                .strafeTo(new Vector2d(-50, -50))
-                .strafeTo(new Vector2d(-48, -61))
-                .afterTime(0, lift.liftDown())
-                .afterTime(0, arm.armCollapse())   //collapse from the high basket score
-                .afterTime(0, wrist.wristDown())  // Move wrist down to get ready to collect
-                .afterTime(0, claw.clawOpen())    // Open the claw
-                .afterTime(0, arm.armGrab())     // Move arm to grab position so we can get close
-                .afterTime(0, lift.liftTiny())   // Lift up slightly to pick sample up
-                .afterTime(0, claw.clawClose())  // Close the claw
-                .waitSeconds(1.5)                // Wait for it to complete in case some thing happens stop here
-                .afterTime(0, arm.armBasket())//arm position to high basket
-                .afterTime(0, lift.liftUp())//extend to high basket
-                .afterTime(0, wrist.wristScore())
-                .strafeTo(new Vector2d(-48, -48)) // Move to basket position location
-                .strafeTo(new Vector2d(-50, -50))
 
-                .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225))//go to the basket
-                .afterTime(0, wrist.wristMid())   // Move wrist to mid position
-                .afterTime(0, claw.clawOpen())    // Open the claw Yay second one in :)
-                .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(90)), Math.toRadians(90))
-                .afterTime(0, arm.armCollapse())  // Collapse the arm
-                .afterTime(0, wrist.wristDown())  // Move wrist down
-                .afterTime(0, claw.clawOpen())    // Open claw again
-                .afterTime(0, arm.armGrab())      // Move arm to grab position
-                .afterTime(0, lift.liftTiny())    // Lift up slightly
-                .afterTime(0, claw.clawClose())   // Close the claw again
-                .waitSeconds(1.5)                 // Wait for actions to complete
-                .afterTime(0, arm.armBasket())// Move arm to basket position
-                .afterTime(0, lift.liftHighBasket())//move viper slide to extend
+                // Move to the high basket position (-54.5, -54.5)
+                .afterTime(0, claw.clawClose()) // Close the claw to secure the object
+                .afterTime(0, arm.armBasket())  // Move the arm to basket position
+                .afterTime(0, lift.liftTiny())  // Slightly lift the object
                 .afterTime(0, wrist.wristScore()) // Move wrist to scoring position
-                .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225))//go to extend
-                .afterTime(0, wrist.wristMid())   // Move wrist to mid position
-                .afterTime(0, claw.clawOpen())    // Open claw
+                .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225))
+
+                // Score the object in the high basket
+                .afterTime(0, wrist.wristMid()) // Adjust wrist to mid position for scoring
+                .afterTime(0, claw.clawOpen()) // Open the claw to release the object
+
+                // Reset to prepare for the next object
+                .afterTime(0, wrist.wristScore()) // Move wrist back to safe position
                 .strafeTo(new Vector2d(-50, -50))
-                .splineToLinearHeading(new Pose2d(-43, 0, Math.toRadians(-180)), Math.toRadians(-180))
+                .splineToLinearHeading(new Pose2d(-48, -61, Math.toRadians(90)), Math.toRadians(90))
                 .afterTime(0, lift.liftDown())
-                .afterTime(0, arm.armCollapse())  // Collapse the arm
-                .setReversed(false)                // Reverse movement direction
-                .strafeTo(new Vector2d(-25, 0)); // Strafe to final position
+                .afterTime(0, arm.armCollapse()) // Collapse the arm
+                .afterTime(0, wrist.wristDown()) // Move wrist down to get ready to collect
+
+                // Simulate grabbing the next object
+                .afterTime(0, claw.clawOpen())
+                .afterTime(0, arm.armGrab())
+                .afterTime(0, lift.liftTiny())
+                .afterTime(0, claw.clawClose())
+                .waitSeconds(1.5)
+
+                // Move back to high basket for the second score
+                .afterTime(0, arm.armBasket())
+                .afterTime(0, lift.liftUp())
+                .afterTime(0, wrist.wristScore())
+                .strafeTo(new Vector2d(-48, -61))
+                .strafeTo(new Vector2d(-48, -48))
+
+                // Score the second object in the high basket
+                .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225))
+                .afterTime(0, wrist.wristMid())
+                .afterTime(0, claw.clawOpen())
+
+                // Move to the next position
+                .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(90)), Math.toRadians(90))
+                .afterTime(0, arm.armCollapse())
+                .afterTime(0, wrist.wristDown())
+
+                // Simulate grabbing another object
+                .afterTime(0, claw.clawOpen())
+                .afterTime(0, arm.armGrab())
+                .afterTime(0, lift.liftTiny())
+                .afterTime(0, claw.clawClose())
+                .waitSeconds(1.5)
+
+                // Move back to high basket position
+                .afterTime(0, arm.armBasket())
+                .afterTime(0, lift.liftHighBasket())
+                .afterTime(0, wrist.wristScore())
+                .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225))
+                .afterTime(0, wrist.wristMid())
+                .afterTime(0, claw.clawOpen())
+
+                // Final movements
+                .strafeTo(new Vector2d(-50, -50))
+                .splineToLinearHeading(new Pose2d(-43, 0, Math.toRadians(0)), Math.toRadians(0))
+                .afterTime(0, lift.liftDown())
+                .afterTime(0, arm.armCollapse())
+                .strafeTo(new Vector2d(-25, 0));
 
         // Wait for the start signal
         while (!isStarted() && !isStopRequested()) {
