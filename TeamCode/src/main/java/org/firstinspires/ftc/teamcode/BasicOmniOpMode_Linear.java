@@ -207,9 +207,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         /* testing above^  */
 
-        //LeftHang.setTargetPosition(0);
-        //LeftHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //LeftHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LeftHang.setTargetPosition(0);
+        LeftHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LeftHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //RightHang.setTargetPosition(0);
         //RightHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //RightHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
