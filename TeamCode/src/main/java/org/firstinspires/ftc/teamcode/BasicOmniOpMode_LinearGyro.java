@@ -29,14 +29,17 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 /*
@@ -67,9 +70,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Omni Linear OpMode", group="Linear OpMode")
+@TeleOp(name="Gyro: Omni Linear OpMode ", group="Linear OpMode")
 
-public class BasicOmniOpMode_Linear extends LinearOpMode {
+public class BasicOmniOpMode_LinearGyro extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
@@ -128,7 +131,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 */
     /* Variables to store the positions that the wrist should be set to when folding in, or folding out. */
     final double WRIST_FOLDED_IN   = 0;
-    final double WRIST_FOLDED_OUT  = 0.72;
+    final double WRIST_FOLDED_OUT  = 0.65;
     final double FUDGE_FACTOR = 15 * ARM_TICKS_PER_DEGREE;
 
     /* Variables that are used to set the arm to a specific position */
@@ -138,9 +141,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     final double LIFT_TICKS_PER_MM = (111132.0 / 289.0) / 120.0;
 
     final double LIFT_COLLAPSED = 0 * LIFT_TICKS_PER_MM;
-    final double LIFT_COLLECT =  100 * LIFT_TICKS_PER_MM;
+    final double LIFT_COLLECT = 1942;
     final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
-    final double LIFT_SCORING_IN_HIGH_BASKET = 600 * LIFT_TICKS_PER_MM;
+    final double LIFT_SCORING_IN_HIGH_BASKET = 610 * LIFT_TICKS_PER_MM;
 
     double liftPosition = LIFT_COLLAPSED;
     double hangPosotion= 0;
@@ -151,8 +154,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
     double armLiftComp = 0;
 
-    final double claw_OPEN = 0.7;
-    final double claw_CLOSE= 0;
+    final double claw_OPEN = 0.4;
+    final double claw_CLOSE= 0.07;
 
     @Override
     public void runOpMode() {
@@ -207,9 +210,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         /* testing above^  */
 
-        LeftHang.setTargetPosition(0);
-        LeftHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LeftHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //LeftHang.setTargetPosition(0);
+        //LeftHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //LeftHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //RightHang.setTargetPosition(0);
         //RightHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //RightHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -223,6 +226,13 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         /* Send telemetry message to signify robot waiting */
         telemetry.addLine("Robot Ready.");
         telemetry.update();
+        IMU imu = hardwareMap.get(IMU.class, "imu");
+        // Adjust the orientation parameters to match your robot
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT));
+        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
+        imu.initialize(parameters);
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -232,24 +242,33 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            {  double y = -gamepad1.left_stick_y;
+                double x = gamepad1.left_stick_x;
+                double rx = gamepad1.right_stick_x;
 
+                // This button choice was made so that it is hard to hit on accident,
+                // it can be freely changed based on preference.
+                // The equivalent button is start on Xbox-style controllers.
+                if (gamepad1.options) {
+                    imu.resetYaw();
+                }
 
             double max;
+                double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+                // Rotate the movement direction counter to the bot's rotation
+                double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
+                double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
 
-            // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
-            double lateral =  gamepad1.left_stick_x;
-            double yaw     =  gamepad1.right_stick_x;
-            //double armMotion = -gamepad2.right_stick_y;
+                rotX = rotX * 1.1;  // Counteract imperfect strafing
 
-            // Combine the joystick requests for each axis-motion to determine each wheel's power.
-            // Set up a variable for each drive wheel to save the power level for telemetry.
-            double leftFrontPower  = axial + lateral + yaw;
-            double rightFrontPower = axial - lateral - yaw;
-            double leftBackPower   = axial - lateral + yaw;
-            double rightBackPower  = axial + lateral - yaw;
-            //double armPower = armMotion;
-
+                // Denominator is the largest motor power (absolute value) or 1
+                // This ensures all the powers maintain the same ratio,
+                // but only if at least one is out of the range [-1, 1]
+                double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
+                double leftFrontPower = (rotY + rotX + rx) / denominator;
+                double leftBackPower = (rotY - rotX + rx) / denominator;
+                double rightFrontPower = (rotY - rotX - rx) / denominator;
+                double rightBackPower = (rotY + rotX - rx) / denominator;
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
             max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
@@ -292,7 +311,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 intake.setPower(INTAKE_DEPOSIT);
             }*/
             if (gamepad1.dpad_down){
-                wrist.setPosition(0.95);
+                wrist.setPosition(0.3);
             }
 
             if(gamepad1.b){
@@ -352,7 +371,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             else if (gamepad2.a) {
                     /* This turns off the intake, folds in the wrist, and moves the arm
                     back to folded inside the robot. This is also the starting configuration */
+                claw.setPosition(claw_CLOSE);
                 wrist.setPosition(WRIST_FOLDED_IN);
+
                 sleep(250);
                 armPosition = ARM_COLLAPSED_INTO_ROBOT;
                 //intake.setPower(INTAKE_OFF);
@@ -532,5 +553,5 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             telemetry.addData("wrist position" , wrist.getPosition());
             telemetry.addData("wrist direction" , wrist.getDirection());
             telemetry.update();
-        }
-    }}
+
+    }}}}

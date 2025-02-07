@@ -16,11 +16,13 @@ public class leftautotestevan {
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-25, -61, Math.toRadians(90)))
-                        .strafeTo(new Vector2d(-35, -61))
+                     /*   .strafeTo(new Vector2d(-35, -61))
                 .setReversed(false)
                         .strafeTo(new Vector2d(-35,-10))
                 .strafeTo(new Vector2d(-49,-10))
                         .strafeTo(new Vector2d(-49,-59))
+*/
+                .splineToSplineHeading(new Pose2d(new Vector2d(-50,-48), Math.toRadians(225)), Math.toRadians(225))
 
                 .build());
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)

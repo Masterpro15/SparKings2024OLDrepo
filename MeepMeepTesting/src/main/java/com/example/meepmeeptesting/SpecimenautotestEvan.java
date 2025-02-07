@@ -12,55 +12,72 @@ public class SpecimenautotestEvan {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(80, 80, Math.toRadians(180), Math.toRadians(180), 15)
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, -61, Math.toRadians(90)))
 
-               // .afterTime(0, arm.armUp())
-                .strafeTo(new Vector2d(0, -30))
-                .waitSeconds(1)
+                /*.afterTime(0.2, arm.armUp())
+                .afterTime(0.1, claw.clawClose())
+
+                 */
+                .strafeTo(new Vector2d(0, -31.4))
+                //.afterTime(0.1, wrist.wristScore())
+                .strafeTo(new Vector2d(0, -31))
+                /*.afterTime(0 , wrist.wristScore2())
+                .afterTime(0, wrist.wristDanger())
+                .afterTime(0 , arm.armSpec2())
+                .afterTime(0, wrist.wristDanger())
+
+                 */
+                .waitSeconds(0.8)
+                /*.afterTime(0 , wrist.wristDanger())
+                /* .afterTime(0, arm.armSpec2())
+                 .afterTime(0, wrist.wristDanger())
+                 .afterTime(0, wrist.wristScore())
+                 .afterTime(0 , wrist.wristScore2())
+                 .afterTime(0, wrist.wristDanger())
+                 .waitSeconds(2)
+
+                 */
+               // .afterTime(1, claw.clawOpen())
+
+                //first specimen done
+                .waitSeconds(0.8)
+                //.afterTime(0.1, wrist.wristDown())
 
                 .setReversed(true)
-               // .afterTime(0, arm.armDown())
+                //.afterTime(0 , arm.armStop())
                 .splineToSplineHeading(new Pose2d(new Vector2d(26,-43), Math.toRadians(-90)), 0)
+                .splineToLinearHeading(new Pose2d(new Vector2d(40,-13), Math.toRadians(-90)), 0)
+                                .strafeTo(new Vector2d(46, -13))
 
 
-                .splineTo(new Vector2d(45.2, -13), 0)
+                //.splineTo(new Vector2d(45, -13), 0)
 
-                .strafeTo(new Vector2d(45,-53))
+                .strafeTo(new Vector2d(46,-53))
                 //one in observation zone
-                .strafeTo(new Vector2d(45,-13))
-
-                .strafeTo(new Vector2d(56,-13))
-                .strafeTo(new Vector2d(50,-59))
-                .waitSeconds(0.5)
-               // .afterTime(0, arm.armUp())
+                //.strafeTo(new Vector2d(45,-13))
 
                 .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(0,-35), Math.toRadians(90)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(new Vector2d(56.5, -13), Math.toRadians(-90)), 0)
 
-                .setReversed(true)
-               // .afterTime(0, arm.armDown())
-                .splineToSplineHeading(new Pose2d(new Vector2d(38, -59.5), Math.toRadians(-90)), Math.toRadians(0))
-
-                .waitSeconds(0.5)
-               // .afterTime(0, arm.armUp())
+                //  .strafeTo(new Vector2d(56.5,-13))
+               // .afterTime(0, wrist.wristGrab())
+                .strafeTo(new Vector2d(56.5,-54.5))
                 .setReversed(true)
 
-                .splineToSplineHeading(new Pose2d(new Vector2d(0,-35), Math.toRadians(90)), Math.toRadians(90))
-                /*
+                .splineToSplineHeading(new Pose2d(new Vector2d(-2,-31.25), Math.toRadians(-270)), Math.toRadians(90))
                 .setReversed(true)
-                //.afterTime(0, arm.armDown())
-                .splineToSplineHeading(new Pose2d(new Vector2d(38, -59.5), Math.toRadians(-90)), Math.toRadians(0))
-                .waitSeconds(0.5)
-               // .afterTime(0, arm.armUp())
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(0,-35), Math.toRadians(90)), Math.toRadians(90))
-                .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(55,-57), Math.toRadians(-90)), Math.toRadians(0))
 
-                */
+                .splineToSplineHeading(new Pose2d(new Vector2d(43, -52.345), Math.toRadians(270)), Math.toRadians(270))
+                .setReversed(true)
+
+                .splineToSplineHeading(new Pose2d(new Vector2d(2, -31.25), Math.toRadians(-270)), Math.toRadians(90))
+                .setReversed(true)
+
+                .splineToSplineHeading(new Pose2d(new Vector2d(43, -52.345), Math.toRadians(270)), Math.toRadians(270))
+
 
 
                 .build());

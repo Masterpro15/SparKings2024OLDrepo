@@ -43,6 +43,86 @@ public class Wrist {
     public Action wristScore() {
         return new WristScore();
     }
+    public class WristGrabSample implements Action {
+        @Override
+
+        public boolean run(@NonNull TelemetryPacket packet) {
+            // desired position, actions do not have parameters (you will have to create a new action for each position you need to go to in auto)
+            wrist.setPosition(0.76);
+            return false;
+        }
+    }
+
+    public Action wristGrabSample() {
+        return new WristGrabSample();
+    }
+    public class WristScore2 implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            wrist.setPosition(0.95);
+            return false;
+        }
+    }
+
+    public Action wristScore2() {
+        return new WristScore2();
+    }
+    public class Wrist1danger implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            wrist.setPosition(1);
+            return false;
+        }
+    }
+
+    public Action wristDanger() {
+        return new WristScore2();
+    }
+
+    public class WristGrab implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            wrist.setPosition(0.51);
+            return false;
+        }
+    }
+
+    public Action wristGrab() {
+        return new WristGrab();
+    }
+    public class WristMid implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            wrist.setPosition(0.51);
+            return false;
+        }
+    }
+
+    public Action wristMid() {
+        return new WristGrab();
+    }
+
+
+
+
+
+    public class WristNewScore implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            wrist.setPosition(0.3);
+            return false;
+        }
+    }
+
+    public Action wristNewScore() {
+        return new WristNewScore();
+    }
+
 
     public class WristMid implements Action {
         @Override

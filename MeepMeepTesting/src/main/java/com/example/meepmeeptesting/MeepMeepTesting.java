@@ -16,7 +16,7 @@ public class MeepMeepTesting {
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, -61, Math.toRadians(90)))
-                .strafeTo(new Vector2d(5, -30))
+                .splineToLinearHeading(new Pose2d(new Vector2d(-49.5, -46), Math.toRadians(90)), Math.toRadians(90))
 
                 //put arm up while strafing
                 //stop and place the sample on the bar
@@ -24,7 +24,7 @@ public class MeepMeepTesting {
                 //.afterTime(0.3, viper.autonSlightOut())
 
 
-
+/*
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(26,-43), Math.toRadians(-90)), 0)
                 //.afterTime(0, shoulder.autonDown())
