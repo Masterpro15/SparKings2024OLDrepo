@@ -15,7 +15,7 @@ public class Lift {
     private static final int LIFT_COLLAPSED = (int) (0 * LIFT_TICKS_PER_MM);
     private static final int LIFT_COLLECT = (int) (100 * LIFT_TICKS_PER_MM);
     private static final int LIFT_SCORING_IN_LOW_BASKET = (int) (300 * LIFT_TICKS_PER_MM);
-    private static final int LIFT_SCORING_IN_HIGH_BASKET = (int) (600 * LIFT_TICKS_PER_MM);
+    private static final int LIFT_SCORING_IN_HIGH_BASKET = (int) (2100 * LIFT_TICKS_PER_MM);
     private static final int LIFT_TINY = (int) (2100 * LIFT_TICKS_PER_MM);
 
     private DcMotorEx liftMotor;

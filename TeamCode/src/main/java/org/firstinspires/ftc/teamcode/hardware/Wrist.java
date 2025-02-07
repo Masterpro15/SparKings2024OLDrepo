@@ -16,14 +16,13 @@ public class Wrist {
     }
 
     public void init() {
-        // Define and Initialize Motors (note: need to use reference to actual OpMode).
         wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
     }
 
     public class WristDown implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            wrist.setPosition(0); // Set wrist to the down position
+            wrist.setPosition(0);
             return false;
         }
     }
@@ -35,7 +34,7 @@ public class Wrist {
     public class WristScore implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            wrist.setPosition(0.67); // Set wrist to the scoring position
+            wrist.setPosition(0.67);
             return false;
         }
     }
@@ -43,11 +42,10 @@ public class Wrist {
     public Action wristScore() {
         return new WristScore();
     }
+
     public class WristGrabSample implements Action {
         @Override
-
         public boolean run(@NonNull TelemetryPacket packet) {
-            // desired position, actions do not have parameters (you will have to create a new action for each position you need to go to in auto)
             wrist.setPosition(0.76);
             return false;
         }
@@ -56,8 +54,8 @@ public class Wrist {
     public Action wristGrabSample() {
         return new WristGrabSample();
     }
-    public class WristScore2 implements Action {
 
+    public class WristScore2 implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             wrist.setPosition(0.95);
@@ -68,8 +66,8 @@ public class Wrist {
     public Action wristScore2() {
         return new WristScore2();
     }
-    public class Wrist1danger implements Action {
 
+    public class Wrist1danger implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             wrist.setPosition(1);
@@ -78,11 +76,10 @@ public class Wrist {
     }
 
     public Action wristDanger() {
-        return new WristScore2();
+        return new Wrist1danger();
     }
 
     public class WristGrab implements Action {
-
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             wrist.setPosition(0.51);
@@ -93,25 +90,20 @@ public class Wrist {
     public Action wristGrab() {
         return new WristGrab();
     }
-    public class WristMid implements Action {
 
+    public class WristMid implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            wrist.setPosition(0.51);
+            wrist.setPosition(0.5);
             return false;
         }
     }
 
     public Action wristMid() {
-        return new WristGrab();
+        return new WristMid();
     }
 
-
-
-
-
     public class WristNewScore implements Action {
-
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             wrist.setPosition(0.3);
@@ -121,18 +113,5 @@ public class Wrist {
 
     public Action wristNewScore() {
         return new WristNewScore();
-    }
-
-
-    public class WristMid implements Action {
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            wrist.setPosition(0.5); // Set wrist to the mid position
-            return false;
-        }
-    }
-
-    public Action wristMid() {
-        return new WristMid();
     }
 }
