@@ -42,7 +42,7 @@ public class highBasketAuto extends LinearOpMode {
         // Initialize all subsystems
         arm.init();
         wrist.init();
-        lift.init();
+        lift.init2();
         claw.init();
 
         // Trajectory Building
@@ -52,7 +52,7 @@ public class highBasketAuto extends LinearOpMode {
                 .afterTime(0.1, claw.clawClose())                     // Close the claw to secure object
                 .afterTime(0.1, arm.armBasket())                      // Move the arm to basket position
                 .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225)) // Move to basket
-                .afterTime(0, lift.liftHighBasket())                // Lift to high basket height
+                .afterTime(0, lift.liftUp())                // Lift to high basket height
                 .afterTime(0, wrist.wristScore())                   // Prepare wrist for scoring
 
 
@@ -76,7 +76,7 @@ public class highBasketAuto extends LinearOpMode {
 
                 // Score the second object
                 .afterTime(0, arm.armBasket())                      // Move arm to basket position
-                .afterTime(0, lift.liftHighBasket())                // Lift to high basket height
+                .afterTime(0, lift.liftUp())                // Lift to high basket height
                 .afterTime(0, wrist.wristScore())                   // Prepare wrist for scoring
                 .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225)) // Move to basket
                 .afterTime(0, wrist.wristMid())                     // Adjust wrist for scoring
