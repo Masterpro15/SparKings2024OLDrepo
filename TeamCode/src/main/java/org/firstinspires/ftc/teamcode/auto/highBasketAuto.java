@@ -49,11 +49,12 @@ public class highBasketAuto extends LinearOpMode {
         TrajectoryActionBuilder builder = drive.actionBuilder(startPose)
 
                 // Step 1: Move to the high basket position
-                .afterTime(0, claw.clawClose())                     // Close the claw to secure object
-                .afterTime(0, arm.armBasket())                      // Move the arm to basket position
+                .afterTime(0.1, claw.clawClose())                     // Close the claw to secure object
+                .afterTime(0.1, arm.armBasket())                      // Move the arm to basket position
+                .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225)) // Move to basket
                 .afterTime(0, lift.liftHighBasket())                // Lift to high basket height
                 .afterTime(0, wrist.wristScore())                   // Prepare wrist for scoring
-                .splineToLinearHeading(new Pose2d(-54.5, -54.5, Math.toRadians(225)), Math.toRadians(225)) // Move to basket
+
 
                 // Step 2: Score the object in the high basket
                 .afterTime(0, wrist.wristMid())                     // Adjust wrist for scoring

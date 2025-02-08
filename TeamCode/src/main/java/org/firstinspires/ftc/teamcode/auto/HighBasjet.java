@@ -42,7 +42,7 @@ public class HighBasjet extends LinearOpMode {
         // Initialize all subsystems
         arm.init();
         wrist.init();
-        lift.init2();
+        lift.init();
         claw.init();
 
         // Trajectory Building
