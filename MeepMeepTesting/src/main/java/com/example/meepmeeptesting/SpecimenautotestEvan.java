@@ -31,10 +31,10 @@ public class SpecimenautotestEvan {
 
                 .setReversed(true)
                 //.afterTime(0 , arm.armStop())
-                .splineToSplineHeading(new Pose2d(new Vector2d(27,-43), Math.toRadians(90)), 0)
+                .splineToSplineHeading(new Pose2d(new Vector2d(27,-43), Math.toRadians(-90)), 0)
               //  .afterTime(0 , arm.armDown())
               //  .afterTime(0.1 , arm.armStop())
-                .splineToLinearHeading(new Pose2d(new Vector2d(43,-13), Math.toRadians(90)), 0)
+                .splineToLinearHeading(new Pose2d(new Vector2d(43,-13), Math.toRadians(-90)), 0)
                 .strafeTo(new Vector2d(47.5, -13))
 
 
@@ -45,9 +45,9 @@ public class SpecimenautotestEvan {
                 //.strafeTo(new Vector2d(45,-13))
 
                 .setReversed(false)
-                .splineToLinearHeading(new Pose2d(new Vector2d(58, -13), Math.toRadians(-90)), 0)
+                .splineToLinearHeading(new Pose2d(new Vector2d(56, -13), Math.toRadians(-90)), 0)
 
-                //  .strafeTo(new Vector2d(56.5,-13))
+                  .strafeTo(new Vector2d(58,-13))
                // .afterTime(0, wrist.wristGrab())
                 .strafeTo(new Vector2d(56.8,-58))
                 .waitSeconds(0.5)
