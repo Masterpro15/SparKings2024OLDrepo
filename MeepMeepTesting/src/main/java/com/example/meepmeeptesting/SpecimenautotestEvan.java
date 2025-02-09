@@ -12,7 +12,7 @@ public class SpecimenautotestEvan {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(75, 60, Math.toRadians(180), Math.toRadians(180), 18)
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 18)
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, -61, Math.toRadians(90)))
