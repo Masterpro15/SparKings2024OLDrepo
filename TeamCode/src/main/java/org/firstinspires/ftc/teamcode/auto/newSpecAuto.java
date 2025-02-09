@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.auto;
 // RR-specific imports
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
@@ -154,7 +155,7 @@ public class newSpecAuto extends LinearOpMode {
         lift.init2();
         int position= 1;
         while (!isStopRequested() && !opModeIsActive()) {
-            Actions.runBlocking(new SequentialAction(
+            Actions.runBlocking(new ParallelAction(
 
             ));
 
@@ -162,7 +163,7 @@ public class newSpecAuto extends LinearOpMode {
         }
 
         waitForStart();
-        Actions.runBlocking(new SequentialAction(
+        Actions.runBlocking(new ParallelAction(
                 build.build()
         ));
 
