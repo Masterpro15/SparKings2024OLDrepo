@@ -65,6 +65,7 @@ public class SpecimenautotestEvan {
                 //  .strafeTo(new Vector2d(56.5,-13))
                // .afterTime(0, wrist.wristGrab())
                 .strafeTo(new Vector2d(56.5,-54.5))
+                /*
                 .setReversed(true)
 
                 .splineToSplineHeading(new Pose2d(new Vector2d(-2,-31.25), Math.toRadians(-270)), Math.toRadians(90))
@@ -79,7 +80,7 @@ public class SpecimenautotestEvan {
                 .splineToSplineHeading(new Pose2d(new Vector2d(43, -52.345), Math.toRadians(270)), Math.toRadians(270))
 
 
-
+                */
                 .build());
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
                 .setDarkMode(true)
