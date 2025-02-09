@@ -15,10 +15,12 @@ public class MeepMeepTesting {
                 .setConstraints(80, 80, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, -61, Math.toRadians(90)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, -61, Math.toRadians(225)))
                 //.splineToLinearHeading(new Pose2d(new Vector2d(-49.5, -46), Math.toRadians(90)), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(new Vector2d(-59, -46), Math.toRadians(90)), Math.toRadians(90))
+                .strafeTo(new Vector2d(-53, -53))
+                .turnTo(Math.toRadians(90))
 
+                .strafeTo(new Vector2d( -61, -47))
                 //put arm up while strafing
                 //stop and place the sample on the bar
                 //.afterTime(0.2, claw.autonOpenClaw())
