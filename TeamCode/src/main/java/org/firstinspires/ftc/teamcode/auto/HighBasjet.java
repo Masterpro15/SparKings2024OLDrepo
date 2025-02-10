@@ -51,15 +51,15 @@ public class HighBasjet extends LinearOpMode {
                 // Step 1: Move to the high basket position
                 .afterTime(0.1, claw.clawClose())                     // Close the claw to secure object
                 .afterTime(0.1, arm.armBasket())
-                .splineToLinearHeading(new Pose2d(-59, -59, Math.toRadians(225)), Math.toRadians(225))
+                .splineToLinearHeading(new Pose2d(-59.5, -59.5, Math.toRadians(225)), Math.toRadians(225))
                 .afterTime(0, lift.liftUp())
 // Move the arm to basket position
                 .afterTime(0, wrist.wristMid())                   // Prepare wrist for scoring
                  // Move to basket
                 .waitSeconds(0.5)
                 // Step 2: Score the object in the high basket
-                .afterTime(0, wrist.wristScore())
-                .waitSeconds(2)
+                .afterTime(0.1, wrist.wristScore())
+                .waitSeconds(1)
 // Adjust wrist for scoring
                 .afterTime(0.1, claw.clawOpen())
                 .waitSeconds(0.3)
@@ -99,7 +99,7 @@ public class HighBasjet extends LinearOpMode {
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(-53, -53))
                 .turnTo(Math.toRadians(90))
-                .strafeTo(new Vector2d( -61, -47))
+                .strafeTo(new Vector2d( -62.67, -47.5))
 
                 .afterTime(0, arm.armDown())
                 .waitSeconds(0.5)
@@ -135,6 +135,7 @@ public class HighBasjet extends LinearOpMode {
                 .waitSeconds(0.3)
                 .afterTime(0, wrist.wristDown())
                 .afterTime(0.2, lift.liftDown())
+                .afterTime(0, arm.armDown())
                 .splineToLinearHeading(new Pose2d(new Vector2d(-59.5f, -46), Math.toRadians(90)), Math.toRadians(90))
                 .afterTime(0, arm.armDown())
                 .strafeTo(new Vector2d(-53, -53))
