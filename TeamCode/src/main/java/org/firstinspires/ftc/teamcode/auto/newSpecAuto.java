@@ -66,7 +66,7 @@ public class newSpecAuto extends LinearOpMode {
 
                  .afterTime(0, wrist.wristGrab())
                 .strafeTo(new Vector2d(56.8,-58))
-                .waitSeconds(0.5)
+                .waitSeconds(0.2)
                   .afterTime(0.1 , claw.clawClose())
                 .waitSeconds(0.1)
                  .afterTime(0.1 , arm.armNewSpec())
@@ -89,7 +89,7 @@ public class newSpecAuto extends LinearOpMode {
 
                  .afterTime(0, wrist.wristGrab())
 
-                .waitSeconds(0.5)
+                .waitSeconds(0.2)
                 .afterTime(0.1 , claw.clawClose())
                 .waitSeconds(0.1)
                   .afterTime(0.1 , arm.armNewSpec())
@@ -115,7 +115,7 @@ public class newSpecAuto extends LinearOpMode {
 
                 .afterTime(0, wrist.wristGrab())
 
-                .waitSeconds(0.5)
+                .waitSeconds(0.2)
                 .afterTime(0.1 , claw.clawClose())
                 .waitSeconds(0.1)
                   .afterTime(0.1 , arm.armNewSpec())
