@@ -142,7 +142,7 @@ public class Arm {
 
         public boolean run(@NonNull TelemetryPacket packet) {
             // desired position, actions do not have parameters (you will have to create a new action for each position you need to go to in auto)
-            armMotor.setTargetPosition(695);
+            armMotor.setTargetPosition(450);
             armMotor.setPower(0.7);// (adjust speed for whatever is necessary)
             //(you cannot stop motion within this action, you would have to do it in another)
             armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
