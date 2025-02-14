@@ -92,7 +92,7 @@ public class newSpecAuto extends LinearOpMode {
 
                 .waitSeconds(0.5)
                 .afterTime(0.1 , claw.clawClose())
-                .waitSeconds(0.1)
+                .waitSeconds(0.3)
                 .afterTime(0.1 , arm.armNewSpec())
                 .afterTime(0.1, wrist.wristNewScore())
                 .afterTime(0.1, lift.liftScoreSpec())
