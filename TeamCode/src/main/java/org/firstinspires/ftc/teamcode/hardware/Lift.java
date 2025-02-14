@@ -122,7 +122,7 @@ public class Lift {
 
             double pos = liftMotor.getCurrentPosition();
             packet.put("liftPos", pos);
-            if (pos < 762) {
+            if (pos < 85) {
                 return true;
             } else {
                 liftMotor.setPower(0);
@@ -132,6 +132,31 @@ public class Lift {
     }
     public Action liftScoreSpec() {
         return new LiftScoreSpec();
+    }
+
+
+    public class LiftScoreSpec2 implements Action {
+        private boolean initialized = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!initialized) {
+                liftMotor.setPower(0.8);
+                initialized = true;
+            }
+
+            double pos = liftMotor.getCurrentPosition();
+            packet.put("liftPos", pos);
+            if (pos < 900) {
+                return true;
+            } else {
+                liftMotor.setPower(0);
+                return false;
+            }
+        }
+    }
+    public Action liftScoreSpec2() {
+        return new LiftScoreSpec2();
     }
 
 

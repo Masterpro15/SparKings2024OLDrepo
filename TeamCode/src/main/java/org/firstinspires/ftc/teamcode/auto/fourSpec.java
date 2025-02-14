@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.auto;
 // RR-specific imports
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
@@ -98,6 +99,28 @@ public class fourSpec extends LinearOpMode {
                 .afterTime(0.1, lift.liftScoreSpec())
                 .setReversed(true)
                 .splineToSplineHeading(new Pose2d(new Vector2d(1,-26 ), Math.toRadians(-270)), Math.toRadians(90))
+                .waitSeconds(0.5)
+                .afterTime(0.1 , claw.clawOpen())
+                .waitSeconds(0.1)
+                .afterTime(0 , wrist.wristGrab())
+                .afterTime(0, lift.liftDown())
+                .setReversed(true)
+                .afterTime(0 , arm.armDown())
+                .afterTime(0, wrist.wristGrab())
+                .splineToSplineHeading(new Pose2d(new Vector2d(43, -52.8), Math.toRadians(270)), Math.toRadians(270))
+                .afterTime(0, wrist.wristGrab())
+                .afterTime(0 , arm.armStop())
+
+                .afterTime(0, wrist.wristGrab())
+
+                .waitSeconds(0.5)
+                .afterTime(0.1 , claw.clawClose())
+                .waitSeconds(0.1)
+                .afterTime(0.1 , arm.armNewSpec())
+                .afterTime(0.1, wrist.wristNewScore())
+                .afterTime(0.1, lift.liftScoreSpec())
+                .setReversed(true)
+                .splineToSplineHeading(new Pose2d(new Vector2d(1,-26 ), Math.toRadians(-270)), Math.toRadians(90))
                 .waitSeconds(0.3)
                 .afterTime(0.1 , claw.clawOpen())
                 .afterTime(0 , wrist.wristDown())
@@ -105,6 +128,8 @@ public class fourSpec extends LinearOpMode {
                 .waitSeconds(0.1)
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d( new Vector2d(60, -61), Math.toRadians(-270)), 0)
+
+
 
 
 
@@ -131,7 +156,7 @@ public class fourSpec extends LinearOpMode {
         lift.init2();
         int position= 1;
         while (!isStopRequested() && !opModeIsActive()) {
-            Actions.runBlocking(new SequentialAction(
+            Actions.runBlocking(new ParallelAction(
 
             ));
 
@@ -139,7 +164,7 @@ public class fourSpec extends LinearOpMode {
         }
 
         waitForStart();
-        Actions.runBlocking(new SequentialAction(
+        Actions.runBlocking(new ParallelAction(
                 build.build()
         ));
 
