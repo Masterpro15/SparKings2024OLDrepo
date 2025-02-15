@@ -17,10 +17,20 @@ public class MeepMeepTesting {
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, -61, Math.toRadians(225)))
                 //.splineToLinearHeading(new Pose2d(new Vector2d(-49.5, -46), Math.toRadians(90)), Math.toRadians(90))
-                .strafeTo(new Vector2d(-53, -53))
-                .turnTo(Math.toRadians(90))
 
-                .strafeTo(new Vector2d( -61, -47))
+                .splineToLinearHeading(new Pose2d(new Vector2d(40,-13), Math.toRadians(-90)), 0)
+                .strafeTo(new Vector2d(47.5, -13))
+
+                .strafeTo(new Vector2d(47.5,-53))
+                //one in observation zone
+                //.strafeTo(new Vector2d(45,-13))
+
+                .setReversed(true)
+
+
+                .splineToLinearHeading(new Pose2d(new Vector2d(58, -13), Math.toRadians(-90)), 0)
+
+
                 //put arm up while strafing
                 //stop and place the sample on the bar
                 //.afterTime(0.2, claw.autonOpenClaw())

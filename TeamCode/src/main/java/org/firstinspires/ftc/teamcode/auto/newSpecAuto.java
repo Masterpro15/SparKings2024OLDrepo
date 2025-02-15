@@ -62,7 +62,7 @@ public class newSpecAuto extends LinearOpMode {
                 //.strafeTo(new Vector2d(45,-13))
 
                 .setReversed(true)
-                .splineToSplineHeading(new Pose2d(new Vector2d(56, -13), Math.toRadians(-90)), 0)
+                .splineToLinearHeading(new Pose2d(new Vector2d(56, -13), Math.toRadians(-90)), 0)
 
                 //  .strafeTo(new Vector2d(56.5,-13))
                  .afterTime(0, wrist.wristGrab())
@@ -84,7 +84,7 @@ public class newSpecAuto extends LinearOpMode {
                 .setReversed(true)
                 .afterTime(0 , arm.armDown())
                 .afterTime(0, wrist.wristGrab())
-                .splineToSplineHeading(new Pose2d(new Vector2d(43, -52.8), Math.toRadians(270)), Math.toRadians(270))
+                .splineToSplineHeading(new Pose2d(new Vector2d(43, -53.8), Math.toRadians(270)), Math.toRadians(270))
                 .afterTime(0, wrist.wristGrab())
                 .afterTime(0 , arm.armStop())
 
