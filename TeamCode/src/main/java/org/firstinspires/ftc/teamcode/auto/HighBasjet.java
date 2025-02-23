@@ -48,19 +48,14 @@ public class HighBasjet extends LinearOpMode {
         // Trajectory Building
         TrajectoryActionBuilder builder = drive.actionBuilder(startPose)
 
-                // Step 1: Move to the high basket position
                 .afterTime(0.1, claw.clawClose())                     // Close the claw to secure object
                 .afterTime(0.1, arm.armBasket())
                 .splineToLinearHeading(new Pose2d(-59.5, -59.5, Math.toRadians(225)), Math.toRadians(225))
                 .afterTime(0, lift.liftUp())
-// Move the arm to basket position
                 .afterTime(0, wrist.wristMid())                   // Prepare wrist for scoring
-                 // Move to basket
                 .waitSeconds(0.9)
-                // Step 2: Score the object in the high basket
                 .afterTime(0.1, wrist.wristScore())
                 .waitSeconds(0.3)
-// Adjust wrist for scoring
                 .afterTime(0.3, claw.clawOpen())
                 .waitSeconds(0.8)
                 .afterTime(0, wrist.wristDown())
@@ -79,17 +74,12 @@ public class HighBasjet extends LinearOpMode {
                 .afterTime(0 , lift.liftDown())
                 .afterTime(0 , wrist.wristDown())
                 .waitSeconds(0.5)
-                //picked up second one
                 .afterTime(0.1, arm.armBasket())
                 .afterTime(0, lift.liftUp())
                 .waitSeconds(0.3)
                 .splineToLinearHeading(new Pose2d(-59.5, -59.5, Math.toRadians(225)), Math.toRadians(225))
 
-// Move the arm to basket position
-                                   // Prepare wrist for scoring
-                // Move to basket
                 .waitSeconds(0.5)
-                // Step 2: Score the object in the high basket
                 .afterTime(0.3, wrist.wristScore())
                 .waitSeconds(1)
                 .afterTime(0.3, claw.clawOpen())
@@ -118,17 +108,13 @@ public class HighBasjet extends LinearOpMode {
                 .afterTime(0 , lift.liftDown())
                 .afterTime(0 , wrist.wristDown())
                 .waitSeconds(0.5)
-                //picked up second one
                 .afterTime(0.1, arm.armBasket())
                 .afterTime(0, lift.liftUp())
                 .waitSeconds(0.3)
                 .splineToLinearHeading(new Pose2d(-59.5, -59.5, Math.toRadians(225)), Math.toRadians(225))
 
-// Move the arm to basket position
                 .afterTime(0, wrist.wristMid())                   // Prepare wrist for scoring
-                // Move to basket
                 .waitSeconds(0.4)
-                // Step 2: Score the object in the high basket
                 .afterTime(0, wrist.wristScore())                     // Adjust wrist for scoring
                 .waitSeconds(1)
                 .afterTime(0, claw.clawOpen())
