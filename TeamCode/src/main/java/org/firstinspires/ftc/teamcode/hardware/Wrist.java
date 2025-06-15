@@ -90,7 +90,7 @@ public class Wrist {
 
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            wrist.setPosition(0.47);
+            wrist.setPosition(0.5);
             return false;
         }
     }
@@ -119,13 +119,25 @@ public class Wrist {
 
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            wrist.setPosition(0.3);
+            wrist.setPosition(0.345);
             return false;
         }
     }
 
     public Action wristNewScore() {
         return new WristNewScore();
+    }
+    public class WristNewScore2 implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            wrist.setPosition(0.4);
+            return false;
+        }
+    }
+
+    public Action wristNewScore2() {
+        return new WristNewScore2();
     }
 
 

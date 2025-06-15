@@ -126,7 +126,7 @@ public class Arm {
 
         public boolean run(@NonNull TelemetryPacket packet) {
             // desired position, actions do not have parameters (you will have to create a new action for each position you need to go to in auto)
-            armMotor.setTargetPosition(803);
+            armMotor.setTargetPosition(804);
             armMotor.setPower(0.7);// (adjust speed for whatever is necessary)
             //(you cannot stop motion within this action, you would have to do it in another)
             armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -135,6 +135,22 @@ public class Arm {
     }
 
     public Action armNewSpec() {
+        return new Armnewspec();
+    }
+    public class Armnewspec2 implements Action {
+        @Override
+
+        public boolean run(@NonNull TelemetryPacket packet) {
+            // desired position, actions do not have parameters (you will have to create a new action for each position you need to go to in auto)
+            armMotor.setTargetPosition(425);
+            armMotor.setPower(0.7);// (adjust speed for whatever is necessary)
+            //(you cannot stop motion within this action, you would have to do it in another)
+            armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            return false;
+        }
+    }
+
+    public Action armNewSpec2() {
         return new Armnewspec();
     }
 

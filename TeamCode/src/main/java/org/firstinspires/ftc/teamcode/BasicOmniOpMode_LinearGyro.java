@@ -118,6 +118,8 @@ public class BasicOmniOpMode_LinearGyro extends LinearOpMode {
     final double ARM_COLLECT               = 20 * ARM_TICKS_PER_DEGREE;
     final double ARM_CLEAR_BARRIER         = 15 * ARM_TICKS_PER_DEGREE;
     final double ARM_SCORE_SPECIMEN        = 60 * ARM_TICKS_PER_DEGREE;
+    final double ARM_SCORE_SPECIMENNEW        = 804;
+
     final double ARM_SCORE_SAMPLE_IN_LOW   = 90 * ARM_TICKS_PER_DEGREE;
     final double ARM_ATTACH_HANGING_HOOK   = 0 * ARM_TICKS_PER_DEGREE;
     final double ARM_WINCH_ROBOT           = 10  * ARM_TICKS_PER_DEGREE;
@@ -141,7 +143,8 @@ public class BasicOmniOpMode_LinearGyro extends LinearOpMode {
     final double LIFT_TICKS_PER_MM = (111132.0 / 289.0) / 120.0;
 
     final double LIFT_COLLAPSED = 0 * LIFT_TICKS_PER_MM;
-    final double LIFT_COLLECT = 1942;
+    final double LIFT_COLLECT = 1834;
+    final double LIFT_SCORE_SPEC = 785;
     final double LIFT_SCORING_IN_LOW_BASKET = 0 * LIFT_TICKS_PER_MM;
     final double LIFT_SCORING_IN_HIGH_BASKET = 610 * LIFT_TICKS_PER_MM;
 
@@ -310,7 +313,10 @@ public class BasicOmniOpMode_LinearGyro extends LinearOpMode {
                 intake.setPower(INTAKE_DEPOSIT);
             }*/
             if (gamepad1.dpad_down){
-                wrist.setPosition(0.3);
+                wrist.setPosition(0.33);
+                armPosition = ARM_SCORE_SPECIMENNEW;
+                sleep(250);
+                liftPosition = LIFT_SCORE_SPEC;
             }
 
             if(gamepad1.b){
