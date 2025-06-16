@@ -33,7 +33,7 @@ public class OutReachREAL extends LinearOpMode {
     final double ARM_COLLAPSED_INTO_ROBOT  = 10;
     final double ARM_SCORE_SAMPLE_IN_LOW   = 90 * ARM_TICKS_PER_DEGREE;
     final double WRIST_FOLDED_IN   = 0;
-    final double WRIST_FOLDED_OUT  = 0.65;
+    final double WRIST_FOLDED_OUT  = 0.78;
     double armPosition = (int)ARM_COLLAPSED_INTO_ROBOT;
     final double LIFT_TICKS_PER_MM = (111132.0 / 289.0) / 120.0;
     final double LIFT_COLLAPSED = 0 * LIFT_TICKS_PER_MM;
